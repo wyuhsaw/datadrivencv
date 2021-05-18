@@ -29,7 +29,7 @@ build_network_logo <- function(position_data){
     dplyr::select(id, start_year, end_year) %>%
     dplyr::mutate(
       end_year = ifelse(end_year > current_year, current_year, end_year),
-      start_year = ifelse(start_year > current_year, current_year, start_year)
+      start_year = ifelse(start_year > current_year, end_year, start_year)
     ) %>%
     purrr::pmap_dfr(function(id, start_year, end_year){
       dplyr::tibble(
