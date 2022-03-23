@@ -15,7 +15,7 @@ Paged.registerHandlers(MyHandler);
 function plot_network(){
   const {width, height} = document.querySelector("svg#cv_network_viz").getBoundingClientRect();
   const width = '250px';
-  const height = '167px'
+  const height = '167px';
 
   const svg = d3.select("svg#cv_network_viz")
     .attr("width", width)
