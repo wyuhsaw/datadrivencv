@@ -8,7 +8,7 @@
 #'
 #' @return Interactive force-directed layout network of your CV data
 #' @export
-build_network_logo_src <- function(position_data){
+build_network_logo <- function(position_data){
   
   positions <- position_data %>%
     dplyr::mutate(
