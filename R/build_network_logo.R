@@ -8,7 +8,9 @@
 #'
 #' @return Interactive force-directed layout network of your CV data
 #' @export
-build_network_logo <- function(position_data){
+build_network_logo <- function(position_data,
+                               angle=90, rx=100, ry=150,
+                               vb1=-10, vb2=0, vb3=215, vb4=270){
   
   positions <- position_data %>%
     dplyr::mutate(
@@ -21,7 +23,8 @@ build_network_logo <- function(position_data){
       min(start_year, end_year) < 2019 ~ "Barcelona, ES",
       TRUE ~ "Melbourne, AUS")) %>% 
     dplyr::mutate(timeline = paste0(rev(strsplit(timeline, " - ")[[1]]), collapse=" - ")) %>% 
-    dplyr::ungroup()
+    dplyr::ungroup() %>% 
+    dplyr::arrange(end_year)
   
   combination_indices <- function(n){
     rep_counts <- (n:1) - 1
@@ -60,13 +63,13 @@ build_network_logo <- function(position_data){
     jsonlite::toJSON()
   
   viz_script <- readr::read_file(system.file("js/cv_network_src.js", package = "datadrivencv"))
-  
+
   glue::glue(
     "<script id = \"data_for_network\" type = \"application/json\">",
     "{network_data}",
     "</script>",
     "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js\"></script>",
-    "<svg angle=\"90\" rx=\"100\" ry=\"150\" viewBox=\"-10 0 215 270\" id = \"cv_network_viz\"></svg>",
+    "<svg angle=\"{angle}\" rx=\"{rx}\" ry=\"{ry}\" viewBox=\"{vb1} {vb2} {vb3} {vb4}\" id = \"cv_network_viz\"></svg>",
     "<script>",
     "{viz_script}",
     "</script>",

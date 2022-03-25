@@ -26,9 +26,10 @@ function plot_network(){
     
   // new color scheme SRC for edges
   // https://observablehq.com/@d3/color-schemes
+  const unique_where = [...new Set(nodes.map(d => d.where))];
   const color_scale_where = d3.scaleOrdinal()
-    .domain(unique_sections)
-    .range(d3.schemeAccent);
+    .domain(unique_where)
+    .range(d3.schemePaired);
 
   const edge_color = d3.scaleLinear()
     .domain(d3.extent(edges, d => d.year));
@@ -58,7 +59,7 @@ function plot_network(){
     .data(edges)
     .enter().append("line")
       .attr("stroke", d => d3.interpolateGreys(edge_color(d.year)))
-      .attr("stroke-width", 0.5);
+      .attr("stroke-width", 1);
 
   const node = g
     //.attr("stroke", "#fff")
