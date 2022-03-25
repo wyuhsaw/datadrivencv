@@ -23,7 +23,7 @@ function plot_network(){
   const color_scale = d3.scaleOrdinal()
     .domain(unique_sections)
     .range(d3.schemeTableau10);
-    
+
   // new color scheme SRC for edges
   // https://observablehq.com/@d3/color-schemes
   const unique_where = [...new Set(nodes.map(d => d.where))];
@@ -59,7 +59,7 @@ function plot_network(){
     .data(edges)
     .enter().append("line")
       .attr("stroke", d => d3.interpolateGreys(edge_color(d.year)))
-      .attr("stroke-width", 1);
+      .attr("stroke-width", 0.5);
 
   const node = g
     //.attr("stroke", "#fff")
@@ -68,11 +68,11 @@ function plot_network(){
     .data(nodes)
     .enter().append("circle")
       .attr("r", 5)
-      .attr("fill", d => color_scale(d.section)) 
+      .attr("fill", d => color_scale(d.section))
       .attr("stroke", d => color_scale_where(d.where)) // SRC add
       .attr("stroke-width", 2) // SRC add
       .call(drag(simulation));
-      
+
   node.append("title")
       .text(d => `${d.section}\n${d.title}\n${d.timeline}\n${d.where}`);
 
@@ -80,7 +80,7 @@ function plot_network(){
       .extent([[0, 0], [width, height]])
       .scaleExtent([0.5, 8])
       .on("zoom", zoomed));
-      
+
   function ticked() {
     link
         .attr("x1", d => d.source.x)
@@ -92,14 +92,14 @@ function plot_network(){
         .attr("cx", d => d.x)
         .attr("cy", d => d.y);
   }
-  
+
   function zoomed() {
     //g.attr("transform", d3.event.transform)
     currentZoom = d3.event.transform;
     console.log(currentZoom);
     g.attr("transform", getTransform(currentAngle, currentZoom));
     //g.attr("transform", "rotate(90,100,150)"); // SRC to avoid zooming (useful if all nodes are visible), so rotated position is kept
-  } 
+  }
 
   function drag(simulation){
 
