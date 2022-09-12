@@ -20,7 +20,7 @@ build_network_logo <- function(position_data,
     ) %>% 
     dplyr::rowwise() %>% 
     dplyr::mutate(where = dplyr::case_when(
-      min(start_year, end_year) < 2019 ~ "Barcelona, ES",
+      min(start_year, end_year) < 2011 ~ "Singapore, SG",
       TRUE ~ "Melbourne, AUS")) %>% 
     dplyr::mutate(timeline = paste0(rev(strsplit(timeline, " - ")[[1]]), collapse=" - ")) %>% 
     dplyr::ungroup() %>% 
